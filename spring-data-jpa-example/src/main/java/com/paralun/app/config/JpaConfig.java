@@ -3,7 +3,9 @@ package com.paralun.app.config;
 import javax.sql.DataSource;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -15,14 +17,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
 @EnableTransactionManagement
+@EnableJpaRepositories(basePackages = "com.paralun.app.repo", entityManagerFactoryRef = "factoryBean")
+@ComponentScan(basePackages = "com.paralun.app.service")
 public class JpaConfig {
     
-    @Bean
+    @Bean("factoryBean")
     public LocalContainerEntityManagerFactoryBean factoryBean() {
         LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
         factory.setDataSource(dataSource());
         factory.setJpaVendorAdapter(vendorAdapter());
-        factory.setPackagesToScan("com.paralun.app");
+        factory.setPackagesToScan("com.paralun.app.model");
         return factory;
     }
     
