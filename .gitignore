@@ -1,2 +1,4 @@
 # Maven Ignore
 target
+
+.idea
